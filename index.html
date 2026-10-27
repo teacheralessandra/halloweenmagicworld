@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HALLOWEEN MAGIC WORLD</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Bubblegum Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Fredoka', cursive, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    .title-font {
+      font-family: 'Bubblegum Sans', 'Fredoka', cursive;
+    }
+    @keyframes gentlePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.06); }
+    }
+    .anim-badge {
+      animation: gentlePulse 3s ease-in-out infinite;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Full-screen natural cover background scene */
+    .hero-scene {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 54px);
+      min-height: 520px;
+      background-image: url('https://i.postimg.cc/TPTR6Cz6/b8b93777-1053-4125-aba4-0f9c6090a368.png');
+      background-size: cover;
+      background-position: center 30%;
+      background-repeat: no-repeat;
+    }
+    /* 3D Door Perspective */
+    .door-frame {
+      perspective: 800px;
+    }
+    .door-leaf {
+      transform-origin: left center;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .door-open .door-leaf {
+      transform: rotateY(-72deg);
+    }
+  </style>
+</head>
+<body class="bg-[#120726] text-white overflow-hidden min-h-screen flex flex-col justify-between selection:bg-amber-400 selection:text-purple-950">
+
+  <!-- TOP BAR -->
+  <header class="w-full bg-[#180833]/90 backdrop-blur-md border-b-2 border-purple-500/30 px-3 py-2 z-40 relative shadow-lg flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl filter drop-shadow">🎃</span>
+      <span class="text-base sm:text-lg md:text-xl font-extrabold tracking-wider text-amber-300 drop-shadow">HALLOWEEN MAGIC WORLD</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <!-- Star Counter -->
+      <div onclick="openStickersModal()" class="flex items-center gap-1.5 bg-[#261047] hover:bg-[#341661] cursor-pointer px-3 py-1.5 rounded-full border-2 border-amber-400 shadow-md active:scale-95 transition-all">
+        <span class="text-lg text-amber-400">⭐</span>
+        <span id="star-count-display" class="font-extrabold text-amber-300 text-sm md:text-base">0</span>
+        <span class="text-[11px] text-amber-200 uppercase font-semibold hidden sm:inline ml-1">Stickers</span>
+      </div>
+      <!-- Voice Audio Toggle -->
+      <button id="voice-btn" onclick="toggleVoice()" class="w-9 h-9 rounded-full bg-[#261047] border-2 border-purple-400/60 flex items-center justify-center text-base active:scale-90 transition-all shadow" title="Toggle English Voice Narration">
+        🔊
+      </button>
+      <!-- Reset Progress -->
+      <button onclick="confirmReset()" class="w-9 h-9 rounded-full bg-red-950/60 border-2 border-red-500/50 flex items-center justify-center text-xs text-red-200 active:scale-90 transition-all hover:bg-red-800" title="Reset Stars">
+        ↺
+      </button>
+    </div>
+  </header>
+
+  <!-- BACKGROUND MUSIC (Autoplays ONLY during mini-games at soft volume) -->
+  <audio id="bg-melody" src="https://cdn.dbimg.app/CqIVzdrK.mp3" preload="auto" loop></audio>
+
+  <!-- MAIN HUB CONTENT -->
+  <main class="flex-1 w-full relative overflow-hidden flex flex-col justify-between">
+    <div class="hero-scene flex flex-col justify-between">
+      
+      <!-- CHARACTER INTERACTIVE BADGES -->
+      <div class="absolute inset-0 pointer-events-none z-30">
+        
+        <!-- 1. HAZEL (On the witch's purple dress, left side) -->
+        <button onclick="meetHazel()" 
+                style="left: 23%; top: 68%;" 
+                class="absolute pointer-events-auto anim-badge flex items-center gap-1.5 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-400 border-2 border-purple-950 text-purple-950 font-black text-xs md:text-sm px-3 md:px-4 py-1.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.85)] hover:scale-110 active:scale-95 transition-transform cursor-pointer" 
+                title="Meet Hazel the Witch!">
+          <span>HAZEL</span>
+          <span class="text-xs text-purple-950">✨</span>
+        </button>
+
+        <!-- 2. SPOOKY (On the black cat's furry chest, below medal) -->
+        <button onclick="meetSpooky()" 
+                style="left: 51.5%; top: 76%;" 
+                class="absolute pointer-events-auto anim-badge flex items-center gap-1.5 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-400 border-2 border-purple-950 text-purple-950 font-black text-xs md:text-sm px-3 md:px-4 py-1.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.85)] hover:scale-110 active:scale-95 transition-transform cursor-pointer" 
+                title="Meet Spooky the Cat!">
+          <span>SPOOKY</span>
+          <span class="text-xs text-purple-950">🐾</span>
+        </button>
+
+        <!-- 3. BOO (Spostato più in basso sul corpo del fantasma, non sul viso) -->
+        <button onclick="meetBoo()" 
+                style="left: 69%; top: 72%;" 
+                class="absolute pointer-events-auto anim-badge flex items-center gap-1.5 bg-gradient-to-r from-sky-600 via-cyan-600 to-indigo-800 border-2 border-cyan-200 text-cyan-100 font-extrabold text-xs md:text-sm px-3 md:px-4 py-1.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.85)] hover:scale-110 active:scale-95 transition-transform cursor-pointer" 
+                title="Meet Boo the Ghost!">
+          <span>BOO</span>
+          <span class="text-xs text-cyan-200">✨</span>
+        </button>
+      </div>
+
+      <!-- SPACER -->
+      <div class="flex-1 pointer-events-none"></div>
+
+      <!-- BOTTOM ZONE: 8 MINI-GAME BUBBLE BUTTONS (Centered horizontally) -->
+      <div class="relative z-30 w-full bg-gradient-to-t from-[#0e041f] via-[#0e041f]/90 to-transparent pt-4 pb-3 px-2 flex flex-col items-center">
+        
+        <div class="w-full max-w-5xl flex items-center justify-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto no-scrollbar py-1">
+          
+          <!-- Game 1: Count Pumpkins -->
+          <div onclick="launchGame(1)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-amber-400 to-orange-600 border-2 border-yellow-200 shadow-[0_0_14px_rgba(251,191,36,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🎃
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-amber-200 mt-1">1. Count</span>
+            <span id="badge-g1" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 2: Candy Hunt -->
+          <div onclick="launchGame(2)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-pink-400 to-rose-600 border-2 border-pink-200 shadow-[0_0_14px_rgba(244,63,94,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🍬
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-pink-200 mt-1">2. Candy</span>
+            <span id="badge-g2" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 3: Ghosts by Colour -->
+          <div onclick="launchGame(3)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-cyan-400 to-blue-600 border-2 border-cyan-200 shadow-[0_0_14px_rgba(6,182,212,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              👻
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-cyan-200 mt-1">3. Ghosts</span>
+            <span id="badge-g3" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 4: Witch's Cauldron -->
+          <div onclick="launchGame(4)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-emerald-400 to-green-700 border-2 border-emerald-200 shadow-[0_0_14px_rgba(160,185,129,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🍄
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-emerald-200 mt-1">4. Pot</span>
+            <span id="badge-g4" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 5: Haunted Doors -->
+          <div onclick="launchGame(5)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-yellow-400 to-amber-700 border-2 border-yellow-200 shadow-[0_0_14px_rgba(234,179,8,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🚪
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-yellow-200 mt-1">5. Doors</span>
+            <span id="badge-g5" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 6: Monster Sorting -->
+          <div onclick="launchGame(6)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-purple-400 to-indigo-700 border-2 border-purple-200 shadow-[0_0_14px_rgba(168,85,247,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              👾
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-purple-200 mt-1">6. Monster</span>
+            <span id="badge-g6" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 7: Pattern Magic -->
+          <div onclick="launchGame(7)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-teal-400 to-teal-800 border-2 border-teal-200 shadow-[0_0_14px_rgba(20,184,166,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🔮
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-teal-200 mt-1">7. Pattern</span>
+            <span id="badge-g7" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+          <!-- Game 8: Big or Small -->
+          <div onclick="launchGame(8)" class="flex-shrink-0 flex flex-col items-center cursor-pointer group active:scale-90 transition-transform">
+            <div class="w-13 h-13 md:w-16 md:h-16 rounded-full bg-gradient-to-b from-rose-500 to-red-800 border-2 border-rose-200 shadow-[0_0_14px_rgba(244,63,94,0.7)] flex items-center justify-center text-2xl md:text-3xl group-hover:scale-110 transition-transform">
+              🕷️
+            </div>
+            <span class="text-[11px] md:text-xs font-bold text-rose-200 mt-1">8. Sizes</span>
+            <span id="badge-g8" class="text-[9px] text-amber-400">☆☆☆☆☆</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FULLSCREEN GAME PLAY MODAL -->
+  <div id="game-modal" class="fixed inset-0 z-50 hidden flex flex-col items-center justify-center p-2 sm:p-4 bg-cover bg-center" style="background-image: url('https://i.postimg.cc/TPTR6Cz6/b8b93777-1053-4125-aba4-0f9c6090a368.png');">
+    <!-- Dark glassmorphic backdrop tint to keep the artwork visible while focusing on gameplay -->
+    <div class="absolute inset-0 bg-[#0e041f]/75 backdrop-blur-[3px] pointer-events-none"></div>
+
+    <!-- Dedicated Game Canvas Card -->
+    <div id="game-card" class="relative z-10 w-full max-w-3xl rounded-3xl border-4 border-amber-400/90 shadow-[0_0_40px_rgba(251,191,36,0.5)] flex flex-col overflow-hidden text-center backdrop-blur-md transition-all duration-300" style="min-height: 480px; background: rgba(24, 8, 48, 0.88);">
+      
+      <!-- GAME TOP BAR (Home Icon replaces 'back' text) -->
+      <div class="w-full bg-black/40 backdrop-blur px-4 py-3 flex items-center justify-between border-b-2 border-white/10 z-20">
+        <!-- Big Friendly 3D Home Button -->
+        <button onclick="closeGameModal()" class="w-12 h-12 rounded-2xl bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400 text-purple-950 font-bold border-2 border-white shadow-lg flex items-center justify-center text-2xl active:scale-90 transition-all cursor-pointer" title="Back to Home Hub">
+          🏠
+        </button>
+
+        <!-- Current Game Badge -->
+        <div class="flex items-center gap-2">
+          <span id="modal-game-badge" class="px-3 py-1 bg-purple-900/80 border border-purple-400/60 rounded-full text-xs font-bold uppercase tracking-wider text-purple-200">
+            GAME 1 OF 8
+          </span>
+        </div>
+
+        <!-- Speaker button to repeat instructions -->
+        <button onclick="repeatInstructions()" class="w-12 h-12 rounded-2xl bg-[#2a1352] hover:bg-[#3d1c75] border-2 border-purple-300/60 text-purple-200 shadow-lg flex items-center justify-center text-xl active:scale-90 transition-all cursor-pointer" title="Hear instruction again">
+          🔊
+        </button>
+      </div>
+
+      <!-- GAME PLAY AREA -->
+      <div id="game-arena" class="flex-1 flex flex-col items-center justify-center p-4 relative z-10">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- GAME PROGRESS STARS FOOTER -->
+      <div class="w-full bg-black/50 py-2.5 px-4 flex items-center justify-center gap-2 border-t-2 border-white/10 text-sm font-bold text-amber-300">
+        <span>LEVEL STARS:</span>
+        <span id="modal-level-stars" class="text-lg tracking-widest text-amber-400">☆☆☆☆☆</span>
+      </div>
+
+      <!-- CELEBRATION OVERLAY -->
+      <div id="victory-overlay" class="absolute inset-0 bg-[#16062ced]/95 z-30 hidden flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+        <div class="text-6xl md:text-7xl mb-2 animate-bounce">🌟🌟🌟</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-amber-300 mb-2 title-font">WONDERFUL!</h2>
+        <p class="text-lg text-purple-200 mb-6 font-bold">You earned five golden stars!</p>
+        <button onclick="closeGameModal()" class="px-8 py-3.5 bg-gradient-to-r from-amber-400 to-orange-500 border-2 border-yellow-200 rounded-2xl text-purple-950 font-black text-xl shadow-[0_0_25px_rgba(251,191,36,0.8)] active:scale-95 transition-all">
+          🏠 HOME
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REWARDS / STICKER BOOK MODAL -->
+  <div id="stickers-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-gradient-to-b from-[#250d4d] to-[#14062c] rounded-3xl border-4 border-amber-400 p-6 shadow-2xl relative">
+      <button onclick="closeStickersModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-purple-900 border border-purple-400 text-purple-200 flex items-center justify-center font-bold text-lg hover:bg-purple-800">
+        ✕
+      </button>
+      <h3 class="text-2xl font-extrabold text-amber-300 text-center mb-1 title-font">MAGIC STICKER BOOK</h3>
+      <p class="text-xs text-center text-purple-200 mb-5">Earn 5 stars in any game to unlock each magical sticker!</p>
+      
+      <div class="grid grid-cols-4 gap-3 mb-6" id="stickers-grid"></div>
+
+      <div class="text-center">
+        <button onclick="closeStickersModal()" class="px-6 py-2 bg-purple-700 hover:bg-purple-600 border border-purple-400 rounded-xl font-bold text-sm text-white shadow">
+          Keep Playing! ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOUND SYNTHESIS & SPEECH LOGIC -->
+  <script>
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let actx = null;
+    let voiceEnabled = true;
+
+    // Background Melody controller with ultra-soft volume (~0.12)
+    const bgMelody = document.getElementById('bg-melody');
+    if (bgMelody) {
+      bgMelody.volume = 0.12; // Tenue: very soft background to ensure English voice is crystal clear
+    }
+
+    // Secondary WebAudio gentle ambient fallback in case external audio stream has network latency
+    let synthMusicInterval = null;
+    function startSoftSynthMelody() {
+      if (synthMusicInterval) return;
+      initAudio();
+      const notes = [261.63, 311.13, 349.23, 392.00, 466.16, 523.25];
+      let step = 0;
+      synthMusicInterval = setInterval(() => {
+        if (!voiceEnabled || !actx) return;
+        const note = notes[step % notes.length];
+        step++;
+        playBeep(note, 'sine', 0.6, 0.025); // Extremely soft chime
+      }, 1200);
+    }
+
+    function stopSoftSynthMelody() {
+      if (synthMusicInterval) {
+        clearInterval(synthMusicInterval);
+        synthMusicInterval = null;
+      }
+    }
+
+    function playBgMelody() {
+      if (!voiceEnabled) return;
+      if (bgMelody) {
+        bgMelody.volume = 0.12; // Soft volume
+        bgMelody.currentTime = 0;
+        const playPromise = bgMelody.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // If browser blocks audio stream, soft WebAudio ambient steps in
+            startSoftSynthMelody();
+          });
+        }
+      } else {
+        startSoftSynthMelody();
+      }
+    }
+
+    function stopBgMelody() {
+      if (bgMelody) {
+        bgMelody.pause();
+        bgMelody.currentTime = 0;
+      }
+      stopSoftSynthMelody();
+    }
+
+    function initAudio() {
+      if (!actx) actx = new AudioCtx();
+      if (actx.state === 'suspended') actx.resume();
+    }
+
+    function playBeep(freq = 440, type = 'sine', duration = 0.15, gainVal = 0.2) {
+      try {
+        initAudio();
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, actx.currentTime);
+        gain.gain.setValueAtTime(gainVal, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playSuccessChime() {
+      playBeep(523.25, 'triangle', 0.12, 0.25);
+      setTimeout(() => playBeep(659.25, 'triangle', 0.15, 0.25), 100);
+      setTimeout(() => playBeep(783.99, 'triangle', 0.25, 0.3), 200);
+    }
+
+    function playDoorOpenCreak() {
+      initAudio();
+      try {
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, actx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(320, actx.currentTime + 0.35);
+        osc.frequency.exponentialRampToValueAtTime(180, actx.currentTime + 0.6);
+        gain.gain.setValueAtTime(0.15, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.6);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + 0.6);
+      } catch (e) {}
+    }
+
+    function playCackleSound() {
+      initAudio();
+      [380, 480, 420, 560, 460].forEach((f, idx) => {
+        setTimeout(() => playBeep(f, 'sawtooth', 0.12, 0.12), idx * 80);
+      });
+    }
+
+    function playMeowSound() {
+      initAudio();
+      try {
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(450, actx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(850, actx.currentTime + 0.18);
+        osc.frequency.exponentialRampToValueAtTime(400, actx.currentTime + 0.45);
+        gain.gain.setValueAtTime(0.2, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.45);
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + 0.45);
+      } catch(e) {}
+    }
+
+    function playGhostWhoosh() {
+      initAudio();
+      [300, 360, 420, 340].forEach((f, idx) => {
+        setTimeout(() => playBeep(f, 'sine', 0.25, 0.15), idx * 90);
+      });
+    }
+
+    // VOICES & SPEECH SYSTEM
+    function toggleVoice() {
+      voiceEnabled = !voiceEnabled;
+      const btn = document.getElementById('voice-btn');
+      btn.innerText = voiceEnabled ? '🔊' : '🔇';
+      if (!voiceEnabled) {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        if (bgMelody) bgMelody.pause();
+      } else {
+        // If inside a game modal and unmuted, resume melody
+        const modal = document.getElementById('game-modal');
+        if (modal && !modal.classList.contains('hidden') && bgMelody) {
+          bgMelody.play().catch(() => {});
+        }
+      }
+    }
+
+    function speakBritish(text, character = 'witch') {
+      if (!voiceEnabled || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+
+      const ut = new SpeechSynthesisUtterance(text);
+      ut.lang = 'en-GB';
+
+      const voices = window.speechSynthesis.getVoices();
+      let pickedVoice = null;
+
+      if (character === 'witch') {
+        pickedVoice = voices.find(v => v.lang.startsWith('en') && /female|victoria|susan|hazel|samantha/i.test(v.name))
+                   || voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name));
+        ut.pitch = 1.35; 
+        ut.rate = 0.72;  // Slow and clean
+      } else if (character === 'candy') {
+        pickedVoice = voices.find(v => v.lang.startsWith('en') && /female|natural|google|samantha|zira/i.test(v.name))
+                   || voices.find(v => v.lang.startsWith('en'));
+        ut.pitch = 1.15;
+        ut.rate = 0.70;  // Extremely slow and clear
+      } else if (character === 'cat') {
+        pickedVoice = voices.find(v => v.lang.startsWith('en') && /child|junior|karen|george/i.test(v.name))
+                   || voices.find(v => v.lang.startsWith('en'));
+        ut.pitch = 1.45;  
+        ut.rate = 0.68;  
+      } else if (character === 'ghost') {
+        pickedVoice = voices.find(v => v.lang.startsWith('en') && /daniel|oliver|arthur/i.test(v.name))
+                   || voices.find(v => v.lang.startsWith('en'));
+        ut.pitch = 1.30; 
+        ut.rate = 0.75;
+      }
+
+      if (pickedVoice) ut.voice = pickedVoice;
+      window.speechSynthesis.speak(ut);
+    }
+
+    // Character Introductions
+    function meetHazel() {
+      initAudio();
+      playCackleSound();
+      setTimeout(() => {
+        speakBritish("Hee-hee-hee! I am Hazel, the witch!", 'witch');
+      }, 400);
+    }
+
+    function meetBoo() {
+      initAudio();
+      playGhostWhoosh();
+      setTimeout(() => {
+        speakBritish("Boooo! I am Boo, the friendly ghost!", 'ghost');
+      }, 350);
+    }
+
+    function meetSpooky() {
+      initAudio();
+      playMeowSound();
+      setTimeout(() => {
+        speakBritish("Meow! Meow! I am Spooky, the black cat!", 'cat');
+      }, 450);
+    }
+
+    const praises = [
+      "Well done!", "Fantastic!", "Great!", "Amazing!", "Good work!", 
+      "Excellent!", "Brilliant!", "You did it!", "Wonderful!", "That's right!", "Super!"
+    ];
+
+    function getRandomPraise() {
+      return praises[Math.floor(Math.random() * praises.length)];
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    let starsPerGame = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+    const STICKERS = [
+      { id: 1, name: "Golden Pumpkin", icon: "🎃" },
+      { id: 2, name: "Magic Lollipop", icon: "🍭" },
+      { id: 3, name: "Gentle Ghost", icon: "👻" },
+      { id: 4, name: "Witch Cauldron", icon: "🍲" },
+      { id: 5, name: "Haunted Key", icon: "🗝️" },
+      { id: 6, name: "Friendly Monster", icon: "👾" },
+      { id: 7, name: "Mystic Wand", icon: "🪄" },
+      { id: 8, name: "Cute Spider", icon: "🕷️" }
+    ];
+
+    function getTotalStars() {
+      return Object.values(starsPerGame).reduce((a, b) => a + b, 0);
+    }
+
+    function updateHubBadges() {
+      document.getElementById('star-count-display').innerText = getTotalStars();
+      for (let i = 1; i <= 8; i++) {
+        const count = starsPerGame[i] || 0;
+        const b = document.getElementById(`badge-g${i}`);
+        if (b) {
+          b.innerText = "★".repeat(count) + "☆".repeat(Math.max(0, 5 - count));
+        }
+      }
+    }
+
+    function confirmReset() {
+      starsPerGame = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 };
+      updateHubBadges();
+      speakBritish("Stars reset to zero!", 'witch');
+    }
+
+    function openStickersModal() {
+      initAudio();
+      const grid = document.getElementById('stickers-grid');
+      grid.innerHTML = '';
+      STICKERS.forEach(s => {
+        const unlocked = (starsPerGame[s.id] || 0) >= 5;
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-2xl flex flex-col items-center justify-center border-2 transition-all ${
+          unlocked 
+            ? 'bg-gradient-to-b from-purple-800 to-indigo-950 border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.5)]' 
+            : 'bg-purple-950/40 border-purple-800/40 opacity-40 grayscale'
+        }`;
+        div.innerHTML = `
+          <div class="text-3xl mb-1">${unlocked ? s.icon : '🔒'}</div>
+          <span class="text-[10px] font-bold text-center text-amber-200">${s.name}</span>
+          <span class="text-[9px] text-purple-300">${unlocked ? 'Unlocked!' : '5 Stars needed'}</span>
+        `;
+        grid.appendChild(div);
+      });
+      document.getElementById('stickers-modal').classList.remove('hidden');
+    }
+
+    function closeStickersModal() {
+      document.getElementById('stickers-modal').classList.add('hidden');
+    }
+
+    // GAME ENGINE
+    let currentGameId = 1;
+    let currentRoundStars = 0;
+    const targetRoundStars = 5;
+    let currentPromptText = "";
+    let lastVoiceActor = 'witch';
+
+    let g1ShuffledPool = [];
+    let g1Target = 1;
+
+    let g2Colors = [
+      { name: "Orange", hex: "#f97316" },
+      { name: "Purple", hex: "#a855f7" },
+      { name: "Green", hex: "#22c55e" },
+      { name: "Yellow", hex: "#eab308" },
+      { name: "Red", hex: "#ef4444" }
+    ];
+    let g2ShuffledOrder = [];
+    let g2Target = null;
+
+    let g3GhostPalette = [
+      { name: "White", fill: "#ffffff", stroke: "#cbd5e1" },
+      { name: "Yellow", fill: "#fde047", stroke: "#ca8a04" },
+      { name: "Sky Blue", fill: "#38bdf8", stroke: "#0284c7" },
+      { name: "Red", fill: "#f87171", stroke: "#dc2626" },
+      { name: "Green", fill: "#4ade80", stroke: "#16a34a" },
+      { name: "Orange", fill: "#fb923c", stroke: "#ea580c" },
+      { name: "Purple", fill: "#c084fc", stroke: "#9333ea" },
+      { name: "Pink", fill: "#f472b6", stroke: "#db2777" },
+      { name: "Brown", fill: "#a16207", stroke: "#713f12" }
+    ];
+    let g3ShuffledPool = [];
+    let g3TargetGhost = null;
+
+    let g4BasketCount = 5;
+    let g4PotCount = 0;
+    let g4Target = 3;
+    let g4QuantitiesPool = [];
+
+    let g5DoorsPool = [];
+    let g5TargetDoor = 1;
+    let g5Lock = false;
+
+    // Game 6: Monsters 1 to 5 Eyes catalog
+    const MONSTER_CATALOG = {
+      1: {
+        eyes: 1,
+        label: "1 Eye 👁️",
+        color: "#8b5cf6",
+        svg: `
+          <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 filter drop-shadow-[0_6px_12px_rgba(139,92,246,0.6)]">
+            <polygon points="32,25 24,8 40,18" fill="#f59e0b"/>
+            <polygon points="68,25 76,8 60,18" fill="#f59e0b"/>
+            <circle cx="50" cy="55" r="35" fill="#8b5cf6" stroke="#c084fc" stroke-width="3"/>
+            <ellipse cx="50" cy="65" rx="18" ry="12" fill="#a78bfa" opacity="0.6"/>
+            <!-- 1 Giant Eye -->
+            <circle cx="50" cy="45" r="14" fill="#ffffff" stroke="#4c1d95" stroke-width="3"/>
+            <circle cx="50" cy="45" r="7" fill="#06b6d4"/>
+            <circle cx="50" cy="45" r="3.5" fill="#120726"/>
+            <circle cx="52" cy="42" r="2" fill="#ffffff"/>
+            <path d="M 42 67 Q 50 73 58 67" stroke="#4c1d95" stroke-width="3" fill="none"/>
+            <polygon points="46,67 50,73 52,67" fill="#ffffff"/>
+          </svg>`
+      },
+      2: {
+        eyes: 2,
+        label: "2 Eyes 👀",
+        color: "#ec4899",
+        svg: `
+          <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 filter drop-shadow-[0_6px_12px_rgba(236,72,153,0.6)]">
+            <circle cx="28" cy="28" r="12" fill="#ec4899"/>
+            <circle cx="28" cy="28" r="6" fill="#fbcfe8"/>
+            <circle cx="72" cy="28" r="12" fill="#ec4899"/>
+            <circle cx="72" cy="28" r="6" fill="#fbcfe8"/>
+            <rect x="22" y="30" width="56" height="52" rx="24" fill="#ec4899" stroke="#f472b6" stroke-width="3"/>
+            <!-- Eye 1 -->
+            <circle cx="38" cy="48" r="9" fill="#ffffff" stroke="#831843" stroke-width="2.5"/>
+            <circle cx="38" cy="48" r="4.5" fill="#10b981"/>
+            <circle cx="38" cy="48" r="2.5" fill="#120726"/>
+            <circle cx="40" cy="46" r="1.5" fill="#ffffff"/>
+            <!-- Eye 2 -->
+            <circle cx="62" cy="48" r="9" fill="#ffffff" stroke="#831843" stroke-width="2.5"/>
+            <circle cx="62" cy="48" r="4.5" fill="#10b981"/>
+            <circle cx="62" cy="48" r="2.5" fill="#120726"/>
+            <circle cx="64" cy="46" r="1.5" fill="#ffffff"/>
+            <path d="M 40 68 Q 50 76 60 68" stroke="#831843" stroke-width="3" fill="none"/>
+            <circle cx="30" cy="62" r="4" fill="#f43f5e" opacity="0.5"/>
+            <circle cx="70" cy="62" r="4" fill="#f43f5e" opacity="0.5"/>
+          </svg>`
+      },
+      3: {
+        eyes: 3,
+        label: "3 Eyes 👁️👁️👁️",
+        color: "#10b981",
+        svg: `
+          <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 filter drop-shadow-[0_6px_12px_rgba(16,185,129,0.6)]">
+            <!-- Alien Antenna -->
+            <line x1="50" y1="26" x2="50" y2="10" stroke="#34d399" stroke-width="4"/>
+            <circle cx="50" cy="10" r="6" fill="#fbbf24"/>
+            <circle cx="50" cy="56" r="34" fill="#059669" stroke="#34d399" stroke-width="3"/>
+            <!-- Top Eye -->
+            <circle cx="50" cy="38" r="7.5" fill="#ffffff" stroke="#064e3b" stroke-width="2"/>
+            <circle cx="50" cy="38" r="3.5" fill="#a855f7"/>
+            <circle cx="50" cy="38" r="1.8" fill="#120726"/>
+            <!-- Bottom Left Eye -->
+            <circle cx="37" cy="52" r="7.5" fill="#ffffff" stroke="#064e3b" stroke-width="2"/>
+            <circle cx="37" cy="52" r="3.5" fill="#a855f7"/>
+            <circle cx="37" cy="52" r="1.8" fill="#120726"/>
+            <!-- Bottom Right Eye -->
+            <circle cx="63" cy="52" r="7.5" fill="#ffffff" stroke="#064e3b" stroke-width="2"/>
+            <circle cx="63" cy="52" r="3.5" fill="#a855f7"/>
+            <circle cx="63" cy="52" r="1.8" fill="#120726"/>
+            <path d="M 40 70 Q 50 80 60 70" stroke="#064e3b" stroke-width="3.5" fill="none"/>
+          </svg>`
+      },
+      4: {
+        eyes: 4,
+        label: "4 Eyes 👁️‍🗨️",
+        color: "#f59e0b",
+        svg: `
+          <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 filter drop-shadow-[0_6px_12px_rgba(245,158,11,0.6)]">
+            <rect x="22" y="24" width="56" height="56" rx="18" fill="#d97706" stroke="#fbbf24" stroke-width="3"/>
+            <!-- Horns -->
+            <polygon points="26,24 20,8 34,18" fill="#ef4444"/>
+            <polygon points="74,24 80,8 66,18" fill="#ef4444"/>
+            <!-- 4 Eyes Grid -->
+            <circle cx="38" cy="40" r="6.5" fill="#ffffff" stroke="#78350f" stroke-width="2"/>
+            <circle cx="38" cy="40" r="3" fill="#0284c7"/><circle cx="38" cy="40" r="1.5" fill="#000"/>
+            
+            <circle cx="62" cy="40" r="6.5" fill="#ffffff" stroke="#78350f" stroke-width="2"/>
+            <circle cx="62" cy="40" r="3" fill="#0284c7"/><circle cx="62" cy="40" r="1.5" fill="#000"/>
+
+            <circle cx="38" cy="56" r="6.5" fill="#ffffff" stroke="#78350f" stroke-width="2"/>
+            <circle cx="38" cy="56" r="3" fill="#0284c7"/><circle cx="38" cy="56" r="1.5" fill="#000"/>
+
+            <circle cx="62" cy="56" r="6.5" fill="#ffffff" stroke="#78350f" stroke-width="2"/>
+            <circle cx="62" cy="56" r="3" fill="#0284c7"/><circle cx="62" cy="56" r="1.5" fill="#000"/>
+            
+            <path d="M 42 69 Q 50 74 58 69" stroke="#78350f" stroke-width="3" fill="none"/>
+          </svg>`
+      },
+      5: {
+        eyes: 5,
+        label: "5 Eyes ⭐",
+        color: "#06b6d4",
+        svg: `
+          <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 filter drop-shadow-[0_6px_12px_rgba(6,182,212,0.6)]">
+            <ellipse cx="50" cy="55" rx="36" ry="32" fill="#0891b2" stroke="#67e8f9" stroke-width="3"/>
+            <!-- 5 Eyes in Arch -->
+            <circle cx="28" cy="42" r="5" fill="#fff" stroke="#164e63" stroke-width="1.8"/>
+            <circle cx="28" cy="42" r="2.2" fill="#ec4899"/>
+            
+            <circle cx="40" cy="34" r="5" fill="#fff" stroke="#164e63" stroke-width="1.8"/>
+            <circle cx="40" cy="34" r="2.2" fill="#ec4899"/>
+            
+            <circle cx="50" cy="30" r="5.5" fill="#fff" stroke="#164e63" stroke-width="1.8"/>
+            <circle cx="50" cy="30" r="2.5" fill="#ec4899"/>
+
+            <circle cx="60" cy="34" r="5" fill="#fff" stroke="#164e63" stroke-width="1.8"/>
+            <circle cx="60" cy="34" r="2.2" fill="#ec4899"/>
+
+            <circle cx="72" cy="42" r="5" fill="#fff" stroke="#164e63" stroke-width="1.8"/>
+            <circle cx="72" cy="42" r="2.2" fill="#ec4899"/>
+
+            <path d="M 38 65 Q 50 76 62 65" stroke="#164e63" stroke-width="3.5" fill="none"/>
+            <circle cx="34" cy="58" r="3" fill="#f43f5e" opacity="0.6"/>
+            <circle cx="66" cy="58" r="3" fill="#f43f5e" opacity="0.6"/>
+          </svg>`
+      }
+    };
+
+    let g6TargetPool = []; 
+    let g6TargetEyes = 1;
+    let g6OptionA = null;
+    let g6OptionB = null;
+
+    let g7PatternsList = [];
+    let g7Current = null;
+
+    function getBlackCatSvg(sizeClass = "w-24 h-24") {
+      return `
+        <svg viewBox="0 0 100 100" class="${sizeClass} filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+          <polygon points="22,46 14,14 42,30" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+          <polygon points="24,40 18,18 38,28" fill="#f472b6" opacity="0.85"/>
+          
+          <polygon points="78,46 86,14 58,30" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+          <polygon points="76,40 82,18 62,28" fill="#f472b6" opacity="0.85"/>
+          
+          <ellipse cx="50" cy="55" rx="36" ry="30" fill="#18181b" stroke="#27272a" stroke-width="2.5"/>
+          
+          <ellipse cx="36" cy="50" rx="9" ry="11" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+          <ellipse cx="36" cy="50" rx="3.5" ry="8" fill="#09090b"/>
+          <circle cx="39" cy="47" r="2.5" fill="#ffffff"/>
+
+          <ellipse cx="64" cy="50" rx="9" ry="11" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+          <ellipse cx="64" cy="50" rx="3.5" ry="8" fill="#09090b"/>
+          <circle cx="67" cy="47" r="2.5" fill="#ffffff"/>
+
+          <polygon points="47,62 53,62 50,66" fill="#fb7185"/>
+
+          <line x1="26" y1="62" x2="6" y2="58" stroke="#e4e4e7" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="26" y1="66" x2="8" y2="69" stroke="#e4e4e7" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="74" y1="62" x2="94" y2="58" stroke="#e4e4e7" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="74" y1="66" x2="92" y2="69" stroke="#e4e4e7" stroke-width="2.5" stroke-linecap="round"/>
+          
+          <path d="M 46 66 Q 50 71 54 66" stroke="#fb7185" stroke-width="2" fill="none"/>
+        </svg>
+      `;
+    }
+
+    const G8_SYMBOLS_MASTER = [
+      { id: "spider", name: "spider", type: "emoji", icon: "🕷️" },
+      { id: "pumpkin", name: "pumpkin", type: "emoji", icon: "🎃" },
+      { id: "ghost", name: "ghost", type: "emoji", icon: "👻" },
+      { id: "bat", name: "bat", type: "emoji", icon: "🦇" },
+      { id: "candy", name: "candy", type: "emoji", icon: "🍬" },
+      { id: "black cat", name: "black cat", type: "svg", render: getBlackCatSvg }
+    ];
+
+    let g8RoundsPlan = [];
+    let g8CurrentRoundData = null;
+
+    function launchGame(gameId) {
+      initAudio();
+      currentGameId = gameId;
+      currentRoundStars = 0;
+      document.getElementById('game-modal').classList.remove('hidden');
+      document.getElementById('victory-overlay').classList.add('hidden');
+      document.getElementById('modal-game-badge').innerText = `GAME ${gameId} OF 8`;
+      
+      // Start background melody when game arena opens
+      playBgMelody();
+
+      setupGameCardTheme(gameId);
+      initGameRound(gameId);
+    }
+
+    function setupGameCardTheme(gameId) {
+      const card = document.getElementById('game-card');
+      // Semi-transparent deep card gradients so the background scene shows around it
+      const backgrounds = {
+        1: "linear-gradient(135deg, rgba(35, 11, 66, 0.90) 0%, rgba(62, 18, 105, 0.90) 100%)",
+        2: "linear-gradient(135deg, rgba(61, 12, 55, 0.90) 0%, rgba(97, 19, 84, 0.90) 100%)",
+        3: "linear-gradient(135deg, rgba(9, 26, 56, 0.90) 0%, rgba(14, 48, 94, 0.90) 100%)",
+        4: "linear-gradient(135deg, rgba(13, 48, 31, 0.90) 0%, rgba(21, 77, 50, 0.90) 100%)",
+        5: "linear-gradient(135deg, rgba(56, 36, 5, 0.90) 0%, rgba(89, 57, 10, 0.90) 100%)",
+        6: "linear-gradient(135deg, rgba(45, 14, 74, 0.90) 0%, rgba(70, 20, 117, 0.90) 100%)",
+        7: "linear-gradient(135deg, rgba(13, 51, 59, 0.90) 0%, rgba(19, 78, 90, 0.90) 100%)",
+        8: "linear-gradient(135deg, rgba(59, 13, 27, 0.90) 0%, rgba(94, 20, 43, 0.90) 100%)"
+      };
+      card.style.background = backgrounds[gameId] || backgrounds[1];
+    }
+
+    function closeGameModal() {
+      document.getElementById('game-modal').classList.add('hidden');
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      // Stop background melody when returning to the hub
+      stopBgMelody();
+      updateHubBadges();
+    }
+
+    function repeatInstructions() {
+      if (currentPromptText) speakBritish(currentPromptText, lastVoiceActor);
+    }
+
+    function updateLevelStarsDisplay() {
+      const el = document.getElementById('modal-level-stars');
+      el.innerText = "★".repeat(currentRoundStars) + "☆".repeat(Math.max(0, targetRoundStars - currentRoundStars));
+    }
+
+    function onRoundSuccess() {
+      playSuccessChime();
+      currentRoundStars++;
+      updateLevelStarsDisplay();
+
+      const praise = getRandomPraise();
+      speakBritish(praise, lastVoiceActor);
+
+      if (currentRoundStars >= targetRoundStars) {
+        starsPerGame[currentGameId] = 5;
+        updateHubBadges();
+        setTimeout(() => {
+          showVictory();
+        }, 800);
+      } else {
+        setTimeout(() => {
+          renderCurrentGame();
+        }, 1200);
+      }
+    }
+
+    function showVictory() {
+      playSuccessChime();
+      const ov = document.getElementById('victory-overlay');
+      ov.classList.remove('hidden');
+      speakBritish("Wonderful! You earned five golden stars!", 'witch');
+    }
+
+    function initGameRound(id) {
+      updateLevelStarsDisplay();
+
+      if (id === 1) {
+        g1ShuffledPool = shuffleArray([1, 2, 3, 4, 5]);
+      } else if (id === 2) {
+        g2ShuffledOrder = shuffleArray([...g2Colors]);
+      } else if (id === 3) {
+        g3ShuffledPool = shuffleArray([...g3GhostPalette]);
+      } else if (id === 4) {
+        g4QuantitiesPool = shuffleArray([1, 2, 3, 4, 5]);
+      } else if (id === 5) {
+        g5DoorsPool = shuffleArray([1, 2, 3, 4, 5]);
+      } else if (id === 6) {
+        g6TargetPool = shuffleArray([1, 2, 3, 4, 5]);
+      } else if (id === 7) {
+        g7PatternsList = shuffleArray([
+          { a: "🎃", b: "👻", labelA: "pumpkin", labelB: "ghost" },
+          { a: "🧙‍♀️", b: "🐱", labelA: "witch", labelB: "black cat" },
+          { a: "🦇", b: "🕷️", labelA: "bat", labelB: "spider" },
+          { a: "🧟", b: "🎃", labelA: "monster", labelB: "pumpkin" },
+          { a: "👻", b: "🦇", labelA: "ghost", labelB: "bat" }
+        ]);
+      } else if (id === 8) {
+        const symbolsShuffled = shuffleArray([...G8_SYMBOLS_MASTER]).slice(0, 5);
+        const props = shuffleArray(["big", "big", "small", "small", Math.random() < 0.5 ? "big" : "small"]);
+        g8RoundsPlan = symbolsShuffled.map((sym, idx) => ({
+          symbol: sym,
+          prop: props[idx]
+        }));
+      }
+      renderCurrentGame();
+    }
+
+    function renderCurrentGame() {
+      const arena = document.getElementById('game-arena');
+      arena.innerHTML = '';
+
+      switch (currentGameId) {
+        case 1: renderGame1(arena); break;
+        case 2: renderGame2(arena); break;
+        case 3: renderGame3(arena); break;
+        case 4: renderGame4(arena); break;
+        case 5: renderGame5(arena); break;
+        case 6: renderGame6(arena); break;
+        case 7: renderGame7(arena); break;
+        case 8: renderGame8(arena); break;
+      }
+    }
+
+    // GAME 1: Pumpkin Counting Adventure
+    function renderGame1(arena) {
+      lastVoiceActor = 'witch';
+      if (g1ShuffledPool.length === 0) g1ShuffledPool = shuffleArray([1, 2, 3, 4, 5]);
+      g1Target = g1ShuffledPool.pop();
+
+      currentPromptText = "Count the pumpkins!";
+      speakBritish(currentPromptText, 'witch');
+
+      let pumpkinsHtml = '';
+      for (let i = 0; i < g1Target; i++) {
+        pumpkinsHtml += `
+          <div class="text-5xl md:text-6xl animate-bounce filter drop-shadow-[0_0_12px_rgba(249,115,22,0.8)]" style="animation-delay: ${i * 0.1}s; animation-duration: 2s;">
+            🎃
+          </div>
+        `;
+      }
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-purple-400/40 p-4 mb-4">
+          <p class="text-lg md:text-xl font-bold text-amber-300">"${currentPromptText}"</p>
+        </div>
+        
+        <div class="flex items-center justify-center gap-3 md:gap-4 my-6 flex-wrap min-h-[90px]">
+          ${pumpkinsHtml}
+        </div>
+
+        <div class="grid grid-cols-5 gap-2 md:gap-4 w-full max-w-md mt-4">
+          ${[1, 2, 3, 4, 5].map(num => `
+            <button onclick="checkGame1Answer(${num})" class="py-3 md:py-4 rounded-2xl bg-gradient-to-b from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-500 border-2 border-yellow-200 text-purple-950 font-black text-2xl md:text-3xl shadow-lg active:scale-90 transition-transform cursor-pointer">
+              ${num}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function checkGame1Answer(selected) {
+      if (selected === g1Target) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        speakBritish("Try again! Count carefully!", 'witch');
+      }
+    }
+
+    // GAME 2: Trick or Treat! Candy Hunt
+    function renderGame2(arena) {
+      lastVoiceActor = 'candy';
+      if (g2ShuffledOrder.length === 0) g2ShuffledOrder = shuffleArray([...g2Colors]);
+      g2Target = g2ShuffledOrder.pop();
+
+      currentPromptText = `${g2Target.name} candy! Tap it!`;
+      speakBritish(currentPromptText, 'candy');
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-pink-400/40 p-3 mb-3">
+          <p class="text-lg md:text-xl font-bold text-pink-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3 w-full max-w-lg my-4">
+          ${g2Colors.map(c => `
+            <button onclick="checkGame2Answer('${c.name}')" class="p-3 rounded-2xl bg-purple-950/70 border-2 border-purple-500/50 hover:border-pink-300 flex flex-col items-center justify-center gap-1 active:scale-95 transition-all shadow-md group cursor-pointer">
+              <svg viewBox="0 0 100 100" class="w-14 h-14 md:w-16 md:h-16 group-hover:scale-110 transition-transform" style="filter: drop-shadow(0 0 8px ${c.hex});">
+                <polygon points="15,25 35,50 15,75" fill="${c.hex}" opacity="0.9" stroke="#ffffff" stroke-width="3"/>
+                <polygon points="85,25 65,50 85,75" fill="${c.hex}" opacity="0.9" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="50" cy="50" r="28" fill="${c.hex}" stroke="#ffffff" stroke-width="4"/>
+                <path d="M 40 26 Q 50 50 40 74" stroke="#ffffff" stroke-width="3.5" fill="none" opacity="0.85"/>
+                <path d="M 60 26 Q 50 50 60 74" stroke="#ffffff" stroke-width="3.5" fill="none" opacity="0.85"/>
+              </svg>
+              <span class="text-xs md:text-sm font-extrabold" style="color: ${c.hex}">${c.name}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function checkGame2Answer(colName) {
+      if (colName === g2Target.name) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        playMeowSound();
+        speakBritish(`That is ${colName}. Find ${g2Target.name}!`, 'candy');
+      }
+    }
+
+    // GAME 3: Ghosts by Colour
+    function renderGame3(arena) {
+      lastVoiceActor = 'ghost';
+      if (g3ShuffledPool.length === 0) g3ShuffledPool = shuffleArray([...g3GhostPalette]);
+      g3TargetGhost = g3ShuffledPool.pop();
+
+      const distractors = shuffleArray(g3GhostPalette.filter(g => g.name !== g3TargetGhost.name)).slice(0, 3);
+      const candidates = shuffleArray([g3TargetGhost, ...distractors]);
+
+      currentPromptText = `${g3TargetGhost.name} ghost! Tap it!`;
+      speakBritish(currentPromptText, 'ghost');
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-cyan-400/40 p-3 mb-4">
+          <p class="text-lg md:text-xl font-bold text-cyan-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 w-full max-w-xl my-4">
+          ${candidates.map(gh => `
+            <button onclick="checkGame3Answer('${gh.name}')" class="p-3 md:p-4 rounded-2xl bg-purple-950/70 border-2 border-purple-500/50 hover:border-cyan-300 flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all shadow-md group cursor-pointer">
+              <svg viewBox="0 0 100 100" class="w-16 h-16 md:w-20 md:h-20 group-hover:scale-110 transition-transform">
+                <path d="M 25 80 Q 25 25 50 25 Q 75 25 75 80 Q 65 70 55 80 Q 45 70 35 80 Z" fill="${gh.fill}" stroke="${gh.stroke}" stroke-width="4"/>
+                <circle cx="42" cy="45" r="4.5" fill="#120726"/>
+                <circle cx="58" cy="45" r="4.5" fill="#120726"/>
+                <ellipse cx="50" cy="58" rx="5" ry="6" fill="#120726"/>
+              </svg>
+              <span class="text-xs md:text-sm font-extrabold text-purple-200 mt-1">${gh.name}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function checkGame3Answer(name) {
+      if (name === g3TargetGhost.name) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        playGhostWhoosh();
+        speakBritish(`Boo! That is ${name}. Tap the ${g3TargetGhost.name} ghost!`, 'ghost');
+      }
+    }
+
+    // GAME 4: The Witch's Magic Cauldron
+    function renderGame4(arena) {
+      lastVoiceActor = 'witch';
+      if (g4QuantitiesPool.length === 0) g4QuantitiesPool = shuffleArray([1, 2, 3, 4, 5]);
+      g4Target = g4QuantitiesPool.pop();
+      g4PotCount = 0;
+      g4BasketCount = 5;
+
+      const mushroomWord = g4Target === 1 ? "1 mushroom" : `${g4Target} mushrooms`;
+      currentPromptText = `Put ${mushroomWord} in the cauldron!`;
+      speakBritish(currentPromptText, 'witch');
+
+      updateGame4View(arena);
+    }
+
+    function updateGame4View(arena) {
+      if (!arena) arena = document.getElementById('game-arena');
+      const mushroomWord = g4Target === 1 ? "1 mushroom" : `${g4Target} mushrooms`;
+
+      let basketMushrooms = '';
+      for (let i = 0; i < g4BasketCount; i++) {
+        basketMushrooms += `
+          <button onclick="moveMushroomToPot(this)" class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-red-950/80 border-2 border-red-400 flex items-center justify-center text-3xl shadow hover:scale-110 active:scale-95 transition-all cursor-pointer">
+            🍄
+          </button>
+        `;
+      }
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-emerald-400/40 p-3 mb-3">
+          <p class="text-lg md:text-xl font-bold text-emerald-300">"Put ${mushroomWord} in the cauldron!"</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10 w-full max-w-lg my-3">
+          <!-- LEFT: BASKET -->
+          <div class="flex flex-col items-center bg-purple-950/70 border-2 border-amber-500/40 rounded-3xl p-4 w-44 min-h-[160px]">
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="text-2xl">🧺</span>
+              <span class="text-xs font-black uppercase text-amber-300 tracking-wider">Basket</span>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-2">
+              ${basketMushrooms || '<span class="text-xs text-purple-300 italic mt-6">Basket is empty!</span>'}
+            </div>
+            <span class="text-[10px] text-purple-300 mt-3 font-semibold">Tap to move! 👆</span>
+          </div>
+
+          <!-- ARROW -->
+          <div class="text-2xl md:text-3xl text-emerald-400 hidden sm:block">➔</div>
+
+          <!-- RIGHT: CAULDRON -->
+          <div class="flex flex-col items-center bg-purple-950/70 border-2 border-emerald-500/40 rounded-3xl p-4 w-44 min-h-[160px] relative">
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="text-2xl">🧙‍♀️</span>
+              <span class="text-xs font-black uppercase text-emerald-300 tracking-wider">Cauldron</span>
+            </div>
+            
+            <div class="relative w-24 h-24 flex items-center justify-center my-1">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <ellipse cx="50" cy="40" rx="35" ry="12" fill="#10b981" opacity="0.8"/>
+                <circle cx="40" cy="36" r="4" fill="#6ee7b7" class="animate-ping"/>
+                <circle cx="58" cy="38" r="3" fill="#6ee7b7" class="animate-ping" style="animation-delay: 0.5s;"/>
+                <path d="M 15 40 Q 10 85 50 85 Q 90 85 85 40 Z" fill="#1f2937" stroke="#374151" stroke-width="4"/>
+                <ellipse cx="50" cy="38" rx="37" ry="8" fill="none" stroke="#4b5563" stroke-width="4"/>
+                <rect x="25" y="80" width="8" height="12" rx="3" fill="#111827"/>
+                <rect x="67" y="80" width="8" height="12" rx="3" fill="#111827"/>
+              </svg>
+              <!-- Pot Count Badge (Immediately reactive) -->
+              <div class="absolute inset-0 flex items-center justify-center pt-3">
+                <span id="pot-count-display" class="text-2xl font-black text-emerald-300 drop-shadow">${g4PotCount} / ${g4Target}</span>
+              </div>
+            </div>
+
+            <span class="text-[11px] font-bold text-amber-300 mt-1">Target: ${g4Target}</span>
+          </div>
+        </div>
+
+        <button onclick="resetGame4Pot()" class="mt-1 px-4 py-1.5 rounded-full bg-purple-900 border border-purple-400 text-xs text-purple-200 hover:bg-purple-800 cursor-pointer">
+          ↺ Reset Pot
+        </button>
+      `;
+    }
+
+    function moveMushroomToPot(btn) {
+      if (g4BasketCount <= 0) return;
+      playBeep(520, 'sine', 0.1, 0.2);
+      g4BasketCount--;
+      g4PotCount++;
+
+      const counterEl = document.getElementById('pot-count-display');
+      if (counterEl) {
+        counterEl.innerText = `${g4PotCount} / ${g4Target}`;
+      }
+
+      speakBritish(`${g4PotCount}`, 'witch');
+
+      if (g4PotCount === g4Target) {
+        updateGame4View();
+        setTimeout(() => {
+          onRoundSuccess();
+        }, 550);
+      } else if (g4PotCount > g4Target) {
+        playBeep(200, 'sawtooth', 0.25, 0.2);
+        speakBritish(`Too many! We only need ${g4Target}!`, 'witch');
+        setTimeout(() => {
+          resetGame4Pot();
+        }, 1200);
+      } else {
+        updateGame4View();
+      }
+    }
+
+    function resetGame4Pot() {
+      g4PotCount = 0;
+      g4BasketCount = 5;
+      updateGame4View();
+    }
+
+    // GAME 5: The Haunted Number House (Doors open on click, then reset cleanly for next round)
+    function renderGame5(arena) {
+      lastVoiceActor = 'witch';
+      g5Lock = false;
+
+      if (g5DoorsPool.length === 0) {
+        g5DoorsPool = shuffleArray([1, 2, 3, 4, 5]);
+      }
+      g5TargetDoor = g5DoorsPool.pop();
+
+      currentPromptText = `Open door number ${g5TargetDoor}!`;
+      speakBritish(currentPromptText, 'witch');
+
+      const surpriseSurprises = ["✨", "🎃", "👻", "⭐", "🍬"];
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-yellow-400/40 p-3 mb-4">
+          <p class="text-lg md:text-xl font-bold text-yellow-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="grid grid-cols-5 gap-2 md:gap-3 w-full max-w-xl my-4">
+          ${[1, 2, 3, 4, 5].map((door) => `
+            <div id="door-wrapper-${door}" class="door-frame relative h-40 md:h-48 rounded-2xl overflow-visible">
+              
+              <!-- INSIDE THE ROOM (Revealed during 3D swing) -->
+              <div class="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-400/30 to-purple-950 border-2 border-yellow-300 flex flex-col items-center justify-center p-2 shadow-inner">
+                <span class="text-3xl md:text-4xl animate-bounce">${surpriseSurprises[(door - 1) % surpriseSurprises.length]}</span>
+                <span class="text-[10px] font-black text-amber-300 mt-1">OPEN!</span>
+              </div>
+
+              <!-- SWINGING DOOR LEAF -->
+              <button id="door-leaf-${door}" onclick="checkGame5Door(${door})" class="door-leaf absolute inset-0 w-full h-full rounded-2xl bg-gradient-to-b from-amber-900 via-amber-950 to-[#220d03] border-3 border-amber-500/80 hover:border-yellow-300 p-2 shadow-xl flex flex-col items-center justify-between cursor-pointer group active:scale-95 transition-all">
+                <span class="text-[10px] md:text-xs uppercase font-extrabold text-amber-300 tracking-wider">Door</span>
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl md:text-2xl font-black text-amber-200 group-hover:scale-110 transition-transform">
+                  ${door}
+                </div>
+                <!-- Golden Doorknob -->
+                <div class="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.9)] self-end mr-1"></div>
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function checkGame5Door(door) {
+      if (g5Lock) return;
+
+      if (door === g5TargetDoor) {
+        g5Lock = true;
+        playDoorOpenCreak();
+        const wrapper = document.getElementById(`door-wrapper-${door}`);
+        if (wrapper) wrapper.classList.add('door-open');
+
+        setTimeout(() => {
+          playSuccessChime();
+          onRoundSuccess();
+        }, 900);
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        speakBritish(`That is door ${door}. Open door ${g5TargetDoor}!`, 'witch');
+      }
+    }
+
+    // GAME 6: Monster Sorting Party (No Repetitions & Non-Repeating Queue)
+    function renderGame6(arena) {
+      lastVoiceActor = 'cat';
+
+      if (g6TargetPool.length === 0) {
+        g6TargetPool = shuffleArray([1, 2, 3, 4, 5]);
+      }
+      g6TargetEyes = g6TargetPool.pop();
+
+      const otherEyes = [1, 2, 3, 4, 5].filter(e => e !== g6TargetEyes);
+      const distractorEyes = otherEyes[Math.floor(Math.random() * otherEyes.length)];
+
+      const targetMonster = MONSTER_CATALOG[g6TargetEyes];
+      const distractorMonster = MONSTER_CATALOG[distractorEyes];
+
+      const isTargetA = Math.random() < 0.5;
+      g6OptionA = isTargetA ? targetMonster : distractorMonster;
+      g6OptionB = isTargetA ? distractorMonster : targetMonster;
+
+      currentPromptText = g6TargetEyes === 1 
+        ? "Find the monster with 1 eye!" 
+        : `Find the monster with ${g6TargetEyes} eyes!`;
+      
+      speakBritish(currentPromptText, 'cat');
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-purple-400/40 p-3 mb-4">
+          <p class="text-lg md:text-xl font-bold text-purple-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="flex items-center justify-center gap-6 md:gap-10 my-4">
+          <!-- Option A -->
+          <button onclick="checkGame6Monster(${g6OptionA.eyes})" class="p-4 md:p-6 rounded-3xl bg-purple-950/70 border-3 border-purple-400/60 hover:border-amber-300 flex flex-col items-center gap-2 active:scale-95 transition-all shadow-xl group cursor-pointer">
+            ${g6OptionA.svg}
+            <span class="text-sm md:text-base font-extrabold text-amber-300">${g6OptionA.label}</span>
+          </button>
+
+          <!-- Option B -->
+          <button onclick="checkGame6Monster(${g6OptionB.eyes})" class="p-4 md:p-6 rounded-3xl bg-purple-950/70 border-3 border-purple-400/60 hover:border-pink-300 flex flex-col items-center gap-2 active:scale-95 transition-all shadow-xl group cursor-pointer">
+            ${g6OptionB.svg}
+            <span class="text-sm md:text-base font-extrabold text-pink-300">${g6OptionB.label}</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function checkGame6Monster(eyes) {
+      if (eyes === g6TargetEyes) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        playMeowSound();
+        const eyeWord = g6TargetEyes === 1 ? "1 eye" : `${g6TargetEyes} eyes`;
+        speakBritish(`Meow! Find the monster with ${eyeWord}!`, 'cat');
+      }
+    }
+
+    // GAME 7: Halloween Pattern Magic
+    function renderGame7(arena) {
+      lastVoiceActor = 'witch';
+      if (g7PatternsList.length === 0) {
+        g7PatternsList = shuffleArray([
+          { a: "🎃", b: "👻", labelA: "pumpkin", labelB: "ghost" },
+          { a: "🧙‍♀️", b: "🐱", labelA: "witch", labelB: "black cat" },
+          { a: "🦇", b: "🕷️", labelA: "bat", labelB: "spider" },
+          { a: "🧟", b: "🎃", labelA: "monster", labelB: "pumpkin" },
+          { a: "👻", b: "🦇", labelA: "ghost", labelB: "bat" }
+        ]);
+      }
+      g7Current = g7PatternsList.pop();
+
+      currentPromptText = "Complete the magic pattern!";
+      speakBritish(currentPromptText, 'witch');
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-teal-400/40 p-3 mb-4">
+          <p class="text-lg md:text-xl font-bold text-teal-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 md:gap-3 bg-purple-950/70 border-2 border-teal-500/40 rounded-3xl p-4 my-4">
+          <span class="text-4xl md:text-5xl">${g7Current.a}</span>
+          <span class="text-xl text-teal-400">➔</span>
+          <span class="text-4xl md:text-5xl">${g7Current.b}</span>
+          <span class="text-xl text-teal-400">➔</span>
+          <span class="text-4xl md:text-5xl">${g7Current.a}</span>
+          <span class="text-xl text-teal-400">➔</span>
+          <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl border-3 border-dashed border-amber-400 bg-amber-500/10 flex items-center justify-center text-3xl font-black text-amber-300 animate-pulse">
+            ?
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-4 my-4">
+          <button onclick="checkGame7Pattern('${g7Current.a}')" class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-purple-950/80 border-2 border-teal-400 flex items-center justify-center text-4xl md:text-5xl hover:scale-110 active:scale-95 transition-all shadow-lg cursor-pointer">
+            ${g7Current.a}
+          </button>
+          <button onclick="checkGame7Pattern('${g7Current.b}')" class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-purple-950/80 border-2 border-teal-400 flex items-center justify-center text-4xl md:text-5xl hover:scale-110 active:scale-95 transition-all shadow-lg cursor-pointer">
+            ${g7Current.b}
+          </button>
+        </div>
+      `;
+    }
+
+    function checkGame7Pattern(choice) {
+      if (choice === g7Current.b) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        speakBritish("Look at the pattern! Try again!", 'witch');
+      }
+    }
+
+    // GAME 8: Big or Small?
+    function renderGame8(arena) {
+      lastVoiceActor = 'witch';
+
+      if (g8RoundsPlan.length === 0) {
+        const symbolsShuffled = shuffleArray([...G8_SYMBOLS_MASTER]).slice(0, 5);
+        const props = shuffleArray(["big", "big", "small", "small", Math.random() < 0.5 ? "big" : "small"]);
+        g8RoundsPlan = symbolsShuffled.map((sym, idx) => ({
+          symbol: sym,
+          prop: props[idx]
+        }));
+      }
+
+      g8CurrentRoundData = g8RoundsPlan.pop();
+      const targetSymbol = g8CurrentRoundData.symbol;
+      const targetProp = g8CurrentRoundData.prop;
+
+      currentPromptText = targetProp === "big" 
+        ? `Find... BIG ${targetSymbol.name}!` 
+        : `Find... SMALL ${targetSymbol.name}!`;
+      speakBritish(currentPromptText, 'witch');
+
+      const renderVisual = (isBig) => {
+        if (targetSymbol.type === "svg") {
+          return targetSymbol.render(isBig ? "w-24 h-24 md:w-28 md:h-28" : "w-12 h-12 md:w-14 md:h-14");
+        } else {
+          return `<span class="${isBig ? 'text-6xl md:text-7xl' : 'text-3xl md:text-4xl'} group-hover:scale-110 transition-transform">${targetSymbol.icon}</span>`;
+        }
+      };
+
+      arena.innerHTML = `
+        <div class="w-full max-w-md bg-purple-950/60 rounded-2xl border-2 border-rose-400/40 p-3 mb-4">
+          <p class="text-lg md:text-xl font-bold text-rose-300">"${currentPromptText}"</p>
+        </div>
+
+        <div class="flex items-center justify-center gap-6 md:gap-10 my-4">
+          <!-- SMALL CARD -->
+          <button onclick="checkGame8Answer('small')" class="w-32 h-40 md:w-36 md:h-44 rounded-3xl bg-purple-950/70 border-3 border-rose-400/60 hover:border-rose-300 flex flex-col items-center justify-center gap-2 active:scale-95 transition-all shadow-xl group cursor-pointer">
+            ${renderVisual(false)}
+            <span class="text-xs md:text-sm font-extrabold text-rose-300">Small</span>
+          </button>
+
+          <!-- BIG CARD -->
+          <button onclick="checkGame8Answer('big')" class="w-40 h-48 md:w-48 md:h-56 rounded-3xl bg-purple-950/70 border-3 border-rose-400/80 hover:border-rose-300 flex flex-col items-center justify-center gap-2 active:scale-95 transition-all shadow-xl group cursor-pointer">
+            ${renderVisual(true)}
+            <span class="text-sm md:text-base font-extrabold text-amber-300">BIG</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function checkGame8Answer(selected) {
+      if (selected === g8CurrentRoundData.prop) {
+        onRoundSuccess();
+      } else {
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+        speakBritish(g8CurrentRoundData.prop === "big" ? "Find... BIG!" : "Find... SMALL!", 'witch');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateHubBadges();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {};
+      }
+    });
+  </script>
+</body>
+</html>
